@@ -18,15 +18,7 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type = element(keys(var.principals), count.index)
-      # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
-      # force an interpolation expression to be interpreted as a list by wrapping it
-      # in an extra set of list brackets. That form was supported for compatibility in
-      # v0.11, but is no longer supported in Terraform v0.12.
-      #
-      # If the expression in the following list itself returns a list, remove the
-      # brackets to avoid interpretation as a list of lists. If the expression
-      # returns a single list item then leave it as-is and remove this TODO comment.
-      identifiers = [var.principals[element(keys(var.principals), count.index)]]
+      identifiers = var.principals[element(keys(var.principals), count.index)]
     }
   }
 }
@@ -46,7 +38,7 @@ resource "aws_iam_role" "default" {
 
 module "aggregated_policy" {
   source           = "git::https://github.com/techfishio/terraform-aws-iam-policy-document-aggregator?ref=rf/GH-11--upgrade-to-terraform-0_12"
-  source_documents = [var.policy_documents]
+  source_documents = var.policy_documents
 }
 
 resource "aws_iam_policy" "default" {
