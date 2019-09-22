@@ -37,7 +37,7 @@ resource "aws_iam_role" "default" {
 }
 
 module "aggregated_policy" {
-  source           = "git::https://github.com/cloudposse/terraform-aws-iam-policy-document-aggregator.git?ref=tags/0.1.2"
+  source           = "git::https://github.com/techfishio/terraform-aws-iam-policy-document-aggregator?ref=rf/GH-11--upgrade-to-terraform-0_12"
   source_documents = ["${var.policy_documents}"]
 }
 
